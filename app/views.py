@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
-from .forms import ColaboradorForm, EPIForm
-from .models import Colaborador, EPIGenerico
+from .forms import ColaboradorForm, EPIForm, ProdutoForm
+from .models import Colaborador, EPIGenerico, Produto
 
 # Create your views here.
 
@@ -64,4 +64,35 @@ def removerEPI(request, id):
     if(request.method == 'POST'):
         epi = EPIGenerico.objects.get(id=id)
         epi.delete()
-    return redirect('lista_epis')    
+    return redirect('lista_epis')
+
+def cadastrarProdutos(request):
+    if request.method == 'POST':
+        form = ProdutoForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('lista_produtos')
+    else:
+        form = ProdutoForm()
+    return render(request, "produtos/cadastrar.html", {'form': form})
+
+def listarProdutos(request):
+    produtos = Produto.objects.all()
+    return render(request, "produtos/listar.html", {'produtos': produtos})
+
+def editarProdutos(request, id):
+    produto = Produto.objects.get(id=id)
+    form = ProdutoForm(request.POST or None, instance=produto)
+    if form.is_valid():
+        form.save()
+        return redirect('lista_produtos')
+    else:
+        return render(request, "produtos/cadastrar.html", {'form': form})
+    
+def removerProdutos(request, id):
+    if(request.method == 'POST'):
+        produto = Produto.objects.get(id=id)
+        produto.delete()
+    return redirect('lista_produtos')
+
+

@@ -1,5 +1,7 @@
 from django import forms
-from .models import Colaborador, EPIGenerico
+
+from gestaoepi import settings
+from .models import Colaborador, EPIGenerico, Produto
 
 class ColaboradorForm(forms.ModelForm):
     class Meta:
@@ -39,3 +41,16 @@ class EPIForm(forms.ModelForm):
             'descricao': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Digite a descrição do EPI'}),
             'prazo_dias': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Digite o prazo de uso em dias'}),
         }
+        
+class ProdutoForm(forms.ModelForm):
+    class Meta:
+        model = Produto
+        fields = ['epi_generico', 'qtd_estoque', 'numero_ca', 'data_validade_ca']
+        epi_generico = forms.ModelChoiceField(queryset=EPIGenerico.objects.all())
+        qtde_estoque = forms.IntegerField(label='Quantidade em estoque')
+        numero_ca = forms.CharField(label='Número do CA', max_length=100)
+        data_validade_ca = forms.DateField(label='Data de validade do CA', input_formats=settings.DATE_INPUT_FORMATS);
+        
+        
+        
+        

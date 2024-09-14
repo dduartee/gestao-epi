@@ -22,11 +22,19 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path('', views.home, name='home'),  # Exemplo de path para uma view específica
     path('colaborador/cadastrar', views.cadastrarColaborador, name='cadastro_colaborador'),
-    path('colaboradores/', views.listarColaboradores, name='lista_colaboradores'),
-    path('colaborador/<int:id>/editar', views.editarColaborador, name='editar_colaborador'),
-    path('colaborador/<int:id>/remover', views.removerColaborador, name='remover_colaborador'),
     path('epi/cadastrar', views.cadastrarEPI, name='cadastro_epi'),
+    path('produto/cadastrar', views.cadastrarProdutos, name='cadastro_produto'),
+    
+    path('colaboradores/', views.listarColaboradores, name='lista_colaboradores'),
     path('epis/', views.listarEPIs, name='lista_epis'),
+    path('produtos/', views.listarProdutos, name='lista_produtos'),
+    
+    path('colaborador/<int:id>/editar', views.editarColaborador, name='editar_colaborador'),
     path('epi/<int:id>/editar', views.editarEPI, name='editar_epi'),
+    path('produto/<int:id>/editar', views.editarProdutos, name='editar_produto'),
+    
+    path('colaborador/<int:id>/remover', views.removerColaborador, name='remover_colaborador'),
     path('epi/<int:id>/remover', views.removerEPI, name='remover_epi'),
+    path('produto/<int:id>/remover', views.removerProdutos, name='remover_produto'),
+    
 ]

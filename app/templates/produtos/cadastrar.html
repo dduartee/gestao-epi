@@ -3,46 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastrar Produtos</title>
+    <title>Cadastrar Produto (EPI)</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
     <div class="container mt-5">
-        <h2>Cadastrar Produtos</h2>
+        <h2>Cadastrar Produto (EPI)</h2>
         <form method="post">
             {% csrf_token %}
             
-            <!-- Nome -->
+            <!-- EPI Genérico -->
             <div class="form-group">
-                <label for="id_nome">Nome:</label>
-                {{ form.nome }}
-                <small class="form-text text-muted">Digite o nome completo do Produtos.</small>
+                <label for="id_epi_generico">EPI Genérico:</label>
+                {{ form.epi_generico }}
+                <small class="form-text text-muted">Selecione o tipo de EPI.</small>
             </div>
             
-            <!-- CPF -->
+            <!-- Quantidade em Estoque -->
             <div class="form-group">
-                <label for="id_cpf">CPF:</label>
-                {{ form.cpf }}
-                <small class="form-text text-muted">Digite o CPF no formato 000.000.000-00.</small>
+                <label for="id_qtd_estoque">Quantidade em Estoque:</label>
+                {{ form.qtd_estoque }}
+                <small class="form-text text-muted">Informe a quantidade disponível no estoque.</small>
             </div>
             
-            <!-- Telefone -->
+            <!-- Número do CA -->
             <div class="form-group">
-                <label for="id_telefone">Telefone:</label>
-                {{ form.telefone }}
-                <small class="form-text text-muted">Digite o telefone no formato (XX) XXXXX-XXXX.</small>
+                <label for="id_numero_ca">Número do CA:</label>
+                {{ form.numero_ca }}
+                <small class="form-text text-muted">Digite o número do Certificado de Aprovação (CA).</small>
             </div>
             
-            <!-- Cargo -->
+            <!-- Data de Validade do CA -->
             <div class="form-group">
-                <label for="id_cargo">Cargo:</label>
-                {{ form.cargo }}
-                <small class="form-text text-muted">Selecione o cargo do Produtos.</small>
+                <label for="id_data_validade_ca">Data de Validade do CA:</label>
+                {{ form.data_validade_ca }}
+                <small class="form-text text-muted">Informe a data de validade do CA (01/01/24).</small>
             </div>
             
             <!-- Botões -->
             <button type="submit" class="btn btn-primary">Salvar</button>
-            <a href="{% url 'lista_Produtoses' %}" class="btn btn-secondary">Cancelar</a>
+            <a href="{% url 'lista_produtos' %}" class="btn btn-secondary">Cancelar</a>
         </form>
     </div>
 

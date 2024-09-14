@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de produtos</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h2>Lista de Produtos</h2>
+        
+        <a href="{% url 'cadastro_produto' %}" class="btn btn-primary mb-3">Cadastrar Novo Produto</a>
+        
+        {% if produtos %}
+        <table class="table table-bordered table-striped">
+            <thead class="thead-dark">
+                <tr>
+                    <th>EPI</th>
+                    <th>Quantidade Estoque</th>
+                    <th>Numero CA</th>
+                    <th>Data de validade CA</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Loop pelos produtos -->
+                {% for produto in produtos %}
+                <tr>
+                    <td>{{ produto.epi_generico }}</td>
+                    <td>{{ produto.qtd_estoque }}</td>
+                    <td>{{ produto.numero_ca }}</td>
+                    <td>{{ produto.data_validade_ca }}</td>
+                    <td>
+                        Ações: Editar e Remover
+                        <a href="{% url 'editar_produto' produto.id %}" class="btn btn-warning btn-sm">Editar</a>
+                        <a href="{% url 'remover_produto' produto.id %}" class="btn btn-danger btn-sm" 
+                           onclick="return confirm('Tem certeza que deseja remover este produto?');">Excluir</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <div class="alert alert-info" role="alert">
+            Nenhum produto cadastrado.
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Bootstrap 4.5.2 JS, Popper.js, e jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
