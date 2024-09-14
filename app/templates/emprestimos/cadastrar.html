@@ -3,18 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastrar Produto (EPI)</title>
+    <title>Cadastrar Empréstimo</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
     <div class="container mt-5">
-        <h2 class="text-center mb-4">Cadastrar Produto (EPI)</h2>
+        <h1 class="text-center mb-4">Cadastrar Empréstimo</h1>
         <form method="post">
             {% csrf_token %}
             {{ form.as_p }}
-            <!-- Botões -->
             <button type="submit" class="btn btn-primary">Salvar</button>
-            <a href="{% url 'lista_produtos' %}" class="btn btn-secondary">Cancelar</a>
+            <a href="{% url 'lista_emprestimos' %}" class="btn btn-secondary">Cancelar</a>
         </form>
     </div>
 

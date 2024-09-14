@@ -1,7 +1,7 @@
 from django import forms
 
 from gestaoepi import settings
-from .models import Colaborador, EPIGenerico, Produto
+from .models import Colaborador, EPIGenerico, Produto, Emprestimo
 
 class ColaboradorForm(forms.ModelForm):
     class Meta:
@@ -46,11 +46,25 @@ class ProdutoForm(forms.ModelForm):
     class Meta:
         model = Produto
         fields = ['epi_generico', 'qtd_estoque', 'numero_ca', 'data_validade_ca']
-        epi_generico = forms.ModelChoiceField(queryset=EPIGenerico.objects.all())
-        qtde_estoque = forms.IntegerField(label='Quantidade em estoque')
-        numero_ca = forms.CharField(label='Número do CA', max_length=100)
-        data_validade_ca = forms.DateField(label='Data de validade do CA', input_formats=settings.DATE_INPUT_FORMATS);
+        widgets = {
+            'epi_generico': forms.Select(attrs={'class': 'form-control'}),
+            'qtd_estoque': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Digite a quantidade em estoque'}),
+            'numero_ca': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Digite o número do CA'}),
+            'data_validade_ca': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
+        }
         
-        
+class EmprestimoForm(forms.ModelForm):
+    class Meta:
+        model = Emprestimo
+        fields = ['colaborador', 'produto', 'data_emprestimo', 'data_devolucao', 'prazo_uso', 'motivo_devolucao', 'usuario']
+        widgets = {
+            'colaborador': forms.Select(attrs={'class': 'form-control'}),
+            'produto': forms.Select(attrs={'class': 'form-control'}),
+            'data_emprestimo': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
+            'data_devolucao': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
+            'prazo_uso': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Dias'}),
+            'motivo_devolucao': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
+            'usuario': forms.Select(attrs={'class': 'form-control'}),
+        }
         
         

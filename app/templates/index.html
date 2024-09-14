@@ -1,11 +1,75 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Gerenciamento de EPIs - Home</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
-    bla
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">Sistema de Gerenciamento de EPIs e Empréstimos</h1>
+
+        <div class="alert alert-primary text-center" role="alert">
+            Bem-vindo ao painel administrativo! Selecione uma ação abaixo para gerenciar colaboradores, EPIs, produtos e empréstimos.
+        </div>
+
+        <div class="row">
+            <!-- Seção de Gerenciamento de Colaboradores -->
+            <div class="col-md-6 mb-3">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Gerenciar Colaboradores</h5>
+                        <p class="card-text">Cadastre, edite e visualize colaboradores.</p>
+                        <a href="{% url 'cadastro_colaborador' %}" class="btn btn-primary">Cadastrar Colaborador</a>
+                        <a href="{% url 'lista_colaboradores' %}" class="btn btn-secondary">Listar Colaboradores</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Seção de Gerenciamento de EPIs -->
+            <div class="col-md-6 mb-3">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Gerenciar EPIs</h5>
+                        <p class="card-text">Adicione novos EPIs e gerencie o estoque.</p>
+                        <a href="{% url 'cadastro_epi' %}" class="btn btn-primary">Cadastrar EPI</a>
+                        <a href="{% url 'lista_epis' %}" class="btn btn-secondary">Listar EPIs</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Seção de Gerenciamento de Produtos -->
+            <div class="col-md-6 mb-3">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Gerenciar Produtos</h5>
+                        <p class="card-text">Controle os produtos relacionados aos EPIs.</p>
+                        <a href="{% url 'cadastro_produto' %}" class="btn btn-primary">Cadastrar Produto</a>
+                        <a href="{% url 'lista_produtos' %}" class="btn btn-secondary">Listar Produtos</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Seção de Gerenciamento de Empréstimos -->
+            <div class="col-md-6 mb-3">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Gerenciar Empréstimos</h5>
+                        <p class="card-text">Realize e gerencie empréstimos de EPIs para colaboradores.</p>
+                        <a href="{% url 'cadastro_emprestimo' %}" class="btn btn-primary">Novo Empréstimo</a>
+                        <a href="{% url 'lista_emprestimos' %}" class="btn btn-secondary">Listar Empréstimos</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap 4.5.2 JS, Popper.js, e jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

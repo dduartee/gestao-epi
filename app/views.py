@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
-from .forms import ColaboradorForm, EPIForm, ProdutoForm
-from .models import Colaborador, EPIGenerico, Produto
+from .forms import ColaboradorForm, EPIForm, ProdutoForm, EmprestimoForm
+from .models import Colaborador, EPIGenerico, Produto, Emprestimo
 
 # Create your views here.
 
@@ -95,4 +95,32 @@ def removerProdutos(request, id):
         produto.delete()
     return redirect('lista_produtos')
 
+def cadastrarEmprestimo(request):
+    if request.method == 'POST':
+        form = EmprestimoForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('lista_emprestimos')
+    else:
+        form = EmprestimoForm()
+    return render(request, "emprestimos/cadastrar.html", {'form': form})
+
+def listarEmprestimos(request):
+    emprestimos = Emprestimo.objects.all()
+    return render(request, "emprestimos/listar.html", {'emprestimos': emprestimos})
+
+def editarEmprestimo(request, id):
+    emprestimo = Emprestimo.objects.get(id=id)
+    form = EmprestimoForm(request.POST or None, instance=emprestimo)
+    if form.is_valid():
+        form.save()
+        return redirect('lista_emprestimos')
+    else:
+        return render(request, "emprestimos/cadastrar.html", {'form': form})
+
+def removerEmprestimo(request, id):
+    if request.method == 'POST':
+        emprestimo = Emprestimo.objects.get(id=id)
+        emprestimo.delete()
+    return redirect('lista_emprestimos')
 
