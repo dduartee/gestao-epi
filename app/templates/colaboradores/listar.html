@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Colaboradores</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h2>Lista de Colaboradores</h2>
+        
+        <!-- Botão para cadastrar novo colaborador -->
+        <a href="{% url 'cadastro_colaborador' %}" class="btn btn-primary mb-3">Cadastrar Novo Colaborador</a>
+        
+        <!-- Verificação se há colaboradores -->
+        {% if colaboradores %}
+        <table class="table table-bordered table-striped">
+            <thead class="thead-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Nome</th>
+                    <th>CPF</th>
+                    <th>Telefone</th>
+                    <th>Cargo</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Loop pelos colaboradores -->
+                {% for colaborador in colaboradores %}
+                <tr>
+                    <td>{{ colaborador.id }}</td>
+                    <td>{{ colaborador.nome }}</td>
+                    <td>{{ colaborador.cpf }}</td>
+                    <td>{{ colaborador.telefone }}</td>
+                    <td>{{ colaborador.cargo.nome }}</td>
+                    <td>
+                        <!-- Ações: Editar e Remover -->
+                        <a href="{% url 'editar_colaborador' colaborador.id %}" class="btn btn-warning btn-sm">Editar</a>
+                        <a href="{% url 'remover_colaborador' colaborador.id %}" class="btn btn-danger btn-sm" 
+                           onclick="return confirm('Tem certeza que deseja remover este colaborador?');">Excluir</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <div class="alert alert-info" role="alert">
+            Nenhum colaborador cadastrado.
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Bootstrap 4.5.2 JS, Popper.js, e jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastrar Colaborador</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h2>Cadastrar Colaborador</h2>
+        <form method="post">
+            {% csrf_token %}
+            
+            <!-- Nome -->
+            <div class="form-group">
+                <label for="id_nome">Nome Completo:</label>
+                {{ form.nome }}
+                <small class="form-text text-muted">Digite o nome completo do colaborador.</small>
+            </div>
+            
+            <!-- CPF -->
+            <div class="form-group">
+                <label for="id_cpf">CPF:</label>
+                {{ form.cpf }}
+                <small class="form-text text-muted">Digite o CPF no formato 000.000.000-00.</small>
+            </div>
+            
+            <!-- Telefone -->
+            <div class="form-group">
+                <label for="id_telefone">Telefone:</label>
+                {{ form.telefone }}
+                <small class="form-text text-muted">Digite o telefone no formato (XX) XXXXX-XXXX.</small>
+            </div>
+            
+            <!-- Cargo -->
+            <div class="form-group">
+                <label for="id_cargo">Cargo:</label>
+                {{ form.cargo }}
+                <small class="form-text text-muted">Selecione o cargo do colaborador.</small>
+            </div>
+            
+            <!-- Botões -->
+            <button type="submit" class="btn btn-primary">Salvar</button>
+            <a href="{% url 'lista_colaboradores' %}" class="btn btn-secondary">Cancelar</a>
+        </form>
+    </div>
+
+    <!-- Bootstrap 4.5.2 JS, Popper.js, e jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

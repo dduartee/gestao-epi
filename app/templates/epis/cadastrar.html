@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastrar EPI</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h2>Cadastrar EPI</h2>
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="id_nome">Nome do Equipamento:</label>
+                {{ form.nome }}
+            </div>
+            <div class="form-group">
+                <label for="id_desc">Descrição:</label>
+                {{ form.descricao }}
+            </div>
+            <div class="form-group">
+                <label for="id_prazo">Prazo de validade:</label>
+                {{ form.prazo_dias }}
+                <small class="form-text text-muted">Digite o prazo de uso em dias.</small>
+            </div>
+            <!-- Botões -->
+            <button type="submit" class="btn btn-primary">Salvar</button>
+            <a href="{% url 'lista_epis' %}" class="btn btn-secondary">Cancelar</a>
+        </form>
+    </div>
+
+    <!-- Bootstrap 4.5.2 JS, Popper.js, e jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
