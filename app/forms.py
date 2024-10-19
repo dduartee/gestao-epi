@@ -1,7 +1,7 @@
 from django import forms
 
 from gestaoepi import settings
-from .models import Colaborador, EPIGenerico, Produto, Emprestimo
+from .models import Colaborador, Produto, Emprestimo
 
 class ColaboradorForm(forms.ModelForm):
     class Meta:
@@ -28,41 +28,31 @@ class ColaboradorForm(forms.ModelForm):
             'telefone': forms.TextInput(attrs={'class': 'form-control', 'placeholder': '(XX) XXXXX-XXXX'}),
             'cargo': forms.Select(attrs={'class': 'form-control'}, choices=opcoesCargo),
         }
-class EPIForm(forms.ModelForm):
-    class Meta:
-        model = EPIGenerico
-        fields = ['nome', 'descricao', 'prazo_dias']        
-        nome = forms.CharField(label='Nome', max_length=100)
-        descricao = forms.CharField(label='Descrição', max_length=100)
-        prazo_dias = forms.IntegerField(label='Prazo de uso (dias)')
-
-        widgets = {
-            'nome': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Digite o nome do EPI'}),
-            'descricao': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Digite a descrição do EPI'}),
-            'prazo_dias': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Digite o prazo de uso em dias'}),
-        }
-        
+          
 class ProdutoForm(forms.ModelForm):
     class Meta:
         model = Produto
-        fields = ['epi_generico', 'qtd_estoque', 'numero_ca', 'data_validade_ca']
+        fields = ['nome', 'descricao', 'qtd_estoque', 'numero_ca', 'data_validade_ca', 'prazo_dias']
         widgets = {
-            'epi_generico': forms.Select(attrs={'class': 'form-control'}),
+            'nome': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Digite o nome do EPI'}),
+            'descricao': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Digite a descrição do EPI'}),
             'qtd_estoque': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Digite a quantidade em estoque'}),
             'numero_ca': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Digite o número do CA'}),
             'data_validade_ca': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
+            'prazo_dias': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Digite o prazo de uso em dias'}),
         }
         
 class EmprestimoForm(forms.ModelForm):
     class Meta:
         model = Emprestimo
-        fields = ['colaborador', 'produto', 'data_emprestimo', 'data_devolucao', 'prazo_uso', 'motivo_devolucao', 'usuario']
+        fields = ['colaborador', 'produto', 'data_emprestimo', 'data_devolucao', 'motivo_devolucao', 'usuario', 'status', 'condicoesEPI']
         widgets = {
             'colaborador': forms.Select(attrs={'class': 'form-control'}),
             'produto': forms.Select(attrs={'class': 'form-control'}),
             'data_emprestimo': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
             'data_devolucao': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
-            'prazo_uso': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Dias'}),
+            'status': forms.Select(attrs={'class': 'form-control'}),
+            'condicoesEPI': forms.Select(attrs={'class': 'form-control'}),
             'motivo_devolucao': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
             'usuario': forms.Select(attrs={'class': 'form-control'}),
         }

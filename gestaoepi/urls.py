@@ -9,14 +9,9 @@ urlpatterns = [
     # Gerenciamento de colaboradores
     path('colaborador/cadastrar', views.cadastrarColaborador, name='cadastro_colaborador'),
     path('colaboradores/', views.listarColaboradores, name='lista_colaboradores'),
+    path('colaboradores/relatorio', views.relatorioColaboradores, name='relatorio_colaboradores'),
     path('colaborador/<int:id>/editar', views.editarColaborador, name='editar_colaborador'),
     path('colaborador/<int:id>/remover', views.removerColaborador, name='remover_colaborador'),
-
-    # Gerenciamento de EPIs
-    path('epi/cadastrar', views.cadastrarEPI, name='cadastro_epi'),
-    path('epis/', views.listarEPIs, name='lista_epis'),
-    path('epi/<int:id>/editar', views.editarEPI, name='editar_epi'),
-    path('epi/<int:id>/remover', views.removerEPI, name='remover_epi'),
 
     # Gerenciamento de Produtos
     path('produto/cadastrar', views.cadastrarProdutos, name='cadastro_produto'),

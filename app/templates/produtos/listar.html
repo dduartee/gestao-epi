@@ -9,14 +9,22 @@
 <body>
     <div class="container mt-5">
         <h2>Lista de Produtos</h2>
-        
-        <a href="{% url 'cadastro_produto' %}" class="btn btn-primary mb-3">Cadastrar Novo Produto</a>
-        
+        <!-- barra de pesquisa para pesquiar o -->
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label for="nome">Nome</label>
+                    <input type="text" name="nome" id="nome" class="form-control" onkeyup="filtrarPesquisa()">
+                </div>
+            </div>
+        </div>
         {% if produtos %}
         <table class="table table-bordered table-striped">
             <thead class="thead-dark">
                 <tr>
-                    <th>EPI</th>
+                    <th>Nome</th>
+                    <th>Descrição</th>
+                    <th>Prazo de dias</th>
                     <th>Quantidade Estoque</th>
                     <th>Numero CA</th>
                     <th>Data de validade CA</th>
@@ -27,7 +35,9 @@
                 <!-- Loop pelos produtos -->
                 {% for produto in produtos %}
                 <tr>
-                    <td>{{ produto.epi_generico }}</td>
+                    <td>{{ produto.nome }}</td>
+                    <td>{{ produto.descricao }}</td>
+                    <td>{{ produto.prazo_dias }}</td>
                     <td>{{ produto.qtd_estoque }}</td>
                     <td>{{ produto.numero_ca }}</td>
                     <td>{{ produto.data_validade_ca }}</td>
@@ -47,6 +57,74 @@
         </div>
         {% endif %}
     </div>
+    <script>
+        /**
+        const tr = document.querySelectorAll('tbody tr');
+        tr.forEach(tttr => {
+            const tds = tttr.querySelectorAll('td')
+            emprestimos.push({
+                id: tds[0].textContent,
+                colaborador: tds[1].textContent,
+                produto: tds[2].textContent,
+                data_emprestimo: tds[3].textContent,
+                data_devolucao: tds[4].textContent,
+                prazo_uso: tds[5].textContent,
+                motivo_devolucao: tds[6].textContent,
+                usuario: tds[7].textContent
+            });
+        });
+        // preenche os parametros de filtro
+        const equipamento = document.querySelector('#equipamento');
+        const colaborador = document.querySelector('#colaborador');
+        const status = document.querySelector('#status');
+        emprestimos.forEach(emprestimo => {
+            const optionEquipamento = document.createElement('option');
+            optionEquipamento.value = emprestimo.produto;
+            optionEquipamento.textContent = emprestimo.produto;
+            equipamento.appendChild(optionEquipamento);
+
+            const optionColaborador = document.createElement('option');
+            optionColaborador.value = emprestimo.colaborador;
+            optionColaborador.textContent = emprestimo.colaborador;
+            colaborador.appendChild(optionColaborador);
+
+            const optionStatus = document.createElement('option');
+            optionStatus.value = emprestimo.prazo_uso;
+            console.log(emprestimo);
+            optionStatus.textContent = emprestimo.prazo_uso;
+            status.appendChild(optionStatus);
+        });
+    }
+        **/
+        const produtos = [];
+        window.onload = () => {
+            const tr = document.querySelectorAll('tbody tr');
+            tr.forEach(tttr => {
+                const tds = tttr.querySelectorAll('td')
+                produtos.push({
+                    nome: tds[0].textContent,
+                    descricao: tds[1].textContent,
+                    prazo_dias: tds[2].textContent,
+                    qtd_estoque: tds[3].textContent,
+                    numero_ca: tds[4].textContent,
+                    data_validade_ca: tds[5].textContent
+                });
+            });
+        }
+        function filtrarPesquisa() {
+            const nome = document.querySelector('#nome').value;
+            const tr = document.querySelectorAll('tbody tr');
+            tr.forEach(tttr => {
+                const tds = tttr.querySelectorAll('td');
+                if(nome && !tds[0].textContent.toLocaleLowerCase().includes(nome.toLocaleLowerCase())) {
+                    tttr.style.display = 'none';
+                } else {
+                    tttr.style.display = '';
+                }
+            });
+        
+        }
+    </script>
 
     <!-- Bootstrap 4.5.2 JS, Popper.js, e jQuery -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

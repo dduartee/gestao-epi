@@ -8,32 +8,24 @@ class Cargo(models.Model):
         return self.nome
 
 
-class EPIGenerico(models.Model):
+
+class Produto(models.Model):
     nome = models.CharField(max_length=255)
     descricao = models.TextField()
     prazo_dias = models.IntegerField()
-
-    def __str__(self):
-        return self.nome
-
-
-class ListaEPIGenerico(models.Model):
-    cargo = models.ForeignKey(Cargo, on_delete=models.CASCADE)
-    epi_generico = models.ForeignKey(EPIGenerico, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return f'{self.cargo.nome} - {self.epi_generico.nome}'
-
-
-class Produto(models.Model):
-    epi_generico = models.ForeignKey(EPIGenerico, on_delete=models.CASCADE)
     qtd_estoque = models.IntegerField()
     numero_ca = models.CharField(max_length=255)
     data_validade_ca = models.DateField()
 
     def __str__(self):
-        return f'{self.epi_generico.nome} - CA: {self.numero_ca}'
+        return f'{self.nome} - CA: {self.numero_ca}'
 
+class ListaProduto(models.Model):
+    cargo = models.ForeignKey(Cargo, on_delete=models.CASCADE)
+    produto = models.ForeignKey(Produto, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f'{self.cargo.nome} - {self.epi_generico.nome}'
 
 class Usuario(models.Model):
     nome = models.CharField(max_length=255)
@@ -53,13 +45,27 @@ class Colaborador(models.Model):
 
 
 class Emprestimo(models.Model):
+    statuschoice = (
+        ('Emprestado', 'Emprestado'),
+        ('Em uso', 'Em uso'),
+        ('Forneceido', 'Fornecido'),
+        ('Devolvido', 'Devolvido'),
+        ('Danificado', 'Danificado'),
+        ('Perdido', 'Perdido'),
+    )
+    condicoesEPI = (
+        ('Novo', 'Novo'),
+        ('Usado', 'Usado'),
+        ('Ruim', 'Ruim')
+    )
     colaborador = models.ForeignKey(Colaborador, on_delete=models.CASCADE)
     produto = models.ForeignKey(Produto, on_delete=models.CASCADE)
     data_emprestimo = models.DateField()
     data_devolucao = models.DateField(null=True, blank=True)
-    prazo_uso = models.IntegerField()
+    status = models.TextField(choices=statuschoice)
+    condicoesEPI = models.TextField(choices=condicoesEPI)
     motivo_devolucao = models.CharField(max_length=255, null=True, blank=True)
     usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f'Emprestimo de {self.produto.epi_generico.nome} para {self.colaborador.nome}'
+        return f'Emprestimo de {self.produto.nome} para {self.colaborador.nome}'

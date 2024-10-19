@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
-from .forms import ColaboradorForm, EPIForm, ProdutoForm, EmprestimoForm
-from .models import Colaborador, EPIGenerico, Produto, Emprestimo
+from .forms import ColaboradorForm, ProdutoForm, EmprestimoForm
+from .models import Colaborador, Produto, Emprestimo
 
 # Create your views here.
 
@@ -21,6 +21,22 @@ def listarColaboradores(request):
     if(request.method == 'GET'):
         colaboradores = Colaborador.objects.all()
         return render(request, "colaboradores/listar.html", {'colaboradores': colaboradores})
+def relatorioColaboradores(request):
+    if(request.method == 'GET'):
+        colaboradores = Colaborador.objects.all()
+        equipamentos = Produto.objects.all()
+        emprestimos = Emprestimo.objects.all()
+        
+        # colaborador, data de emprestimo, equipamento
+        lista = []
+        for emprestimo in emprestimos:
+            lista.append({
+                'colaborador': emprestimo.colaborador.nome,
+                'data_emprestimo': emprestimo.data_emprestimo.strftime('%Y-%m-%d'),
+                'produto': emprestimo.produto.nome
+            })
+            
+        return render(request, "colaboradores/relatorio.html", {'lista': lista})
 
 def editarColaborador(request, id):
     colaborador = Colaborador.objects.get(id=id)
@@ -36,35 +52,6 @@ def removerColaborador(request, id):
         colaborador = Colaborador.objects.get(id=id)
         colaborador.delete()
     return redirect('lista_colaboradores')
-
-def cadastrarEPI(request):
-    if request.method == 'POST':
-        form = EPIForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('lista_epis')
-    else:
-        form = EPIForm()
-    return render(request, "epis/cadastrar.html", {'form': form})
-
-def listarEPIs(request):
-    EPIs = EPIGenerico.objects.all()
-    return render(request, "epis/listar.html", {'epis': EPIs})
-
-def editarEPI(request, id):
-    epi = EPIGenerico.objects.get(id=id)
-    form = EPIForm(request.POST or None, instance=epi)
-    if form.is_valid():
-        form.save()
-        return redirect('lista_epis')
-    else:
-        return render(request, "epis/cadastrar.html", {'form': form})
-
-def removerEPI(request, id):
-    if(request.method == 'POST'):
-        epi = EPIGenerico.objects.get(id=id)
-        epi.delete()
-    return redirect('lista_epis')
 
 def cadastrarProdutos(request):
     if request.method == 'POST':
@@ -90,9 +77,8 @@ def editarProdutos(request, id):
         return render(request, "produtos/cadastrar.html", {'form': form})
     
 def removerProdutos(request, id):
-    if(request.method == 'POST'):
-        produto = Produto.objects.get(id=id)
-        produto.delete()
+    produto = Produto.objects.get(id=id)
+    produto.delete(keep_parents=False)
     return redirect('lista_produtos')
 
 def cadastrarEmprestimo(request):
@@ -107,7 +93,21 @@ def cadastrarEmprestimo(request):
 
 def listarEmprestimos(request):
     emprestimos = Emprestimo.objects.all()
-    return render(request, "emprestimos/listar.html", {'emprestimos': emprestimos})
+    json = []
+    for emprestimo in emprestimos:
+        json.append({
+            'colaborador': emprestimo.colaborador.nome,
+            'produto': emprestimo.produto.nome,
+            'data_emprestimo': emprestimo.data_emprestimo.strftime('%Y-%m-%d'),
+            'data_devolucao': emprestimo.data_devolucao.strftime('%Y-%m-%d'),
+            'status': emprestimo.status,
+            'condicoesEPI': emprestimo.condicoesEPI,
+            'motivo_devolucao': emprestimo.motivo_devolucao.__str__(),
+            'usuario': emprestimo.usuario.nome
+        })
+    emprestimos_json = json
+    
+    return render(request, "emprestimos/listar.html", {'emprestimos': emprestimos, 'json': emprestimos_json})
 
 def editarEmprestimo(request, id):
     emprestimo = Emprestimo.objects.get(id=id)

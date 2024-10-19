@@ -8,8 +8,7 @@
 </head>
 <body>
     <div class="container mt-5">
-        <h2>Lista de Colaboradores</h2>
-        
+        <h2>Relatorio de Colaboradores</h2>
         <div class="row"></div>
             <div class="col-sm-4">
                 <div class="form-group">
@@ -17,30 +16,24 @@
                     <input type="text" name="nome" id="nome" class="form-control" onkeyup="filtrarPesquisa()">
                 </div>
             </div>
-        </div>        
-        {% if colaboradores %}
+        </div>   
+        <!-- Verificação se há colaboradores -->
+        {% if lista %}
         <table class="table table-bordered table-striped">
             <thead class="thead-dark">
                 <tr>
                     <th>Nome</th>
-                    <th>Telefone</th>
-                    <th>Cargo</th>
-                    <th>Ações</th>
+                    <th>Data</th>
+                    <th>Produto</th>
                 </tr>
             </thead>
             <tbody>
                 <!-- Loop pelos colaboradores -->
-                {% for colaborador in colaboradores %}
+                {% for item in lista %}
                 <tr>
-                    <td>{{ colaborador.nome }}</td>
-                    <td>{{ colaborador.telefone }}</td>
-                    <td>{{ colaborador.cargo.nome }}</td>
-                    <td>
-                        <!-- Ações: Editar e Remover -->
-                        <a href="{% url 'editar_colaborador' colaborador.id %}" class="btn btn-warning btn-sm">Editar</a>
-                        <a href="{% url 'remover_colaborador' colaborador.id %}" class="btn btn-danger btn-sm" 
-                           onclick="return confirm('Tem certeza que deseja remover este colaborador?');">Excluir</a>
-                    </td>
+                    <td>{{ item.colaborador }}</td>
+                    <td>{{ item.data_emprestimo }}</td>
+                    <td>{{ item.produto }}</td>
                 </tr>
                 {% endfor %}
             </tbody>
@@ -52,6 +45,7 @@
         {% endif %}
     </div>
     <script>
+        /**
         const colaboradores = [];
         window.onload = () => {
             const tr = document.querySelectorAll('tbody tr');
@@ -75,8 +69,32 @@
                 }
             });
         }
-    </script>
+            **/
 
+        const lista = [];
+        window.onload = () => {
+            const tr = document.querySelectorAll('tbody tr');
+            tr.forEach((item) => {
+                const colaborador = item.querySelector('td').textContent;
+                const data_emprestimo = item.querySelector('td:nth-child(2)').textContent;
+                const produto = item.querySelector('td:nth-child(3)').textContent;
+                lista.push({colaborador, data_emprestimo, produto});
+            });
+        }
+
+        function filtrarPesquisa() {
+            const nome = document.getElementById('nome').value;
+            const tr = document.querySelectorAll('tbody tr');
+            tr.forEach((item) => {
+                const td = item.querySelector('td');
+                if (td.textContent.toLocaleLowerCase().includes(nome.toLocaleLowerCase())) {
+                    item.style.display = '';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+    </script>
     <!-- Bootstrap 4.5.2 JS, Popper.js, e jQuery -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>

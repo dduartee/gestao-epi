@@ -1,15 +1,42 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Listar Empréstimos</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
+
 <body>
     <div class="container mt-5">
         <h1 class="text-center mb-4">Listar Empréstimos</h1>
-        <a href="{% url 'cadastro_emprestimo' %}" class="btn btn-primary mb-3">Novo Empréstimo</a>
+        <!--Filtros, equipamento, colaborador, status-->
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label for="equipamento">Equipamento</label>
+                    <select name="equipamento" id="equipamento" class="form-control" onchange="filtrar()">
+                    </select>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label for="colaborador">Colaborador</label>
+                    <select name="colaborador" id="colaborador" class="form-control" onchange="filtrar()">
+                    </select>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group
+                ">
+                    <label for="status">Status</label>
+                    <select name="status" id="status" class="form-control" onchange="filtrar()">
+                    </select>
+                </div>
+            </div>
+        </div>
+
         <table class="table table-bordered">
             <thead>
                 <tr>
@@ -18,7 +45,7 @@
                     <th>Produto</th>
                     <th>Data Empréstimo</th>
                     <th>Data Devolução</th>
-                    <th>Prazo Uso (dias)</th>
+                    <th>Status</th>
                     <th>Motivo Devolução</th>
                     <th>Usuário</th>
                     <th>Ações</th>
@@ -32,12 +59,13 @@
                     <td>{{ emprestimo.produto }}</td>
                     <td>{{ emprestimo.data_emprestimo }}</td>
                     <td>{{ emprestimo.data_devolucao }}</td>
-                    <td>{{ emprestimo.prazo_uso }}</td>
+                    <td>{{ emprestimo.status }}</td>
                     <td>{{ emprestimo.motivo_devolucao }}</td>
                     <td>{{ emprestimo.usuario }}</td>
                     <td>
                         <a href="{% url 'editar_emprestimo' emprestimo.id %}" class="btn btn-warning btn-sm">Editar</a>
-                        <a href="{% url 'remover_emprestimo' emprestimo.id %}" class="btn btn-danger btn-sm" onclick="return confirm('Tem certeza que deseja remover este empréstimo?');">Remover</a>
+                        <a href="{% url 'remover_emprestimo' emprestimo.id %}" class="btn btn-danger btn-sm"
+                            onclick="return confirm('Tem certeza que deseja remover este empréstimo?');">Remover</a>
                     </td>
                 </tr>
                 {% empty %}
@@ -48,10 +76,71 @@
             </tbody>
         </table>
     </div>
+    <script>
+        const emprestimos = [];
+        window.onload = () => {
 
+        const tr = document.querySelectorAll('tbody tr');
+        tr.forEach(tttr => {
+            const tds = tttr.querySelectorAll('td')
+            emprestimos.push({
+                id: tds[0].textContent,
+                colaborador: tds[1].textContent,
+                produto: tds[2].textContent,
+                data_emprestimo: tds[3].textContent,
+                data_devolucao: tds[4].textContent,
+                prazo_uso: tds[5].textContent,
+                motivo_devolucao: tds[6].textContent,
+                usuario: tds[7].textContent
+            });
+        });
+        // preenche os parametros de filtro
+        const equipamento = document.querySelector('#equipamento');
+        const colaborador = document.querySelector('#colaborador');
+        const status = document.querySelector('#status');
+        emprestimos.forEach(emprestimo => {
+            const optionEquipamento = document.createElement('option');
+            optionEquipamento.value = emprestimo.produto;
+            optionEquipamento.textContent = emprestimo.produto;
+            equipamento.appendChild(optionEquipamento);
+
+            const optionColaborador = document.createElement('option');
+            optionColaborador.value = emprestimo.colaborador;
+            optionColaborador.textContent = emprestimo.colaborador;
+            colaborador.appendChild(optionColaborador);
+
+            const optionStatus = document.createElement('option');
+            optionStatus.value = emprestimo.prazo_uso;
+            console.log(emprestimo);
+            optionStatus.textContent = emprestimo.prazo_uso;
+            status.appendChild(optionStatus);
+        });
+    }
+
+    function filtrar() {
+        const equipamento = document.querySelector('#equipamento').value;
+        const colaborador = document.querySelector('#colaborador').value;
+        const status = document.querySelector('#status').value;
+        const tr = document.querySelectorAll('tbody tr');
+        tr.forEach(tttr => {
+            const tds = tttr.querySelectorAll('td');
+            if(equipamento && tds[2].textContent !== equipamento) {
+                tttr.style.display = 'none';
+            } else if(colaborador && tds[1].textContent !== colaborador) {
+                tttr.style.display = 'none';
+            } else if(status && tds[5].textContent !== status) {
+                tttr.style.display = 'none';
+            } else {
+                tttr.style.display = '';
+            }
+        });
+    }
+
+    </script>
     <!-- Bootstrap 4.5.2 JS, Popper.js, e jQuery -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
+
 </html>
